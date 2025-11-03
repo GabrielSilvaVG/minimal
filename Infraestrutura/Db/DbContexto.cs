@@ -1,6 +1,28 @@
+using Microsoft.EntityFrameworkCore;
+using minimal.Dominio.Entidades;
+
 namespace minimal.Infraestrutura.Db
 {
-    public class DbContexto
+    public class DbContexto(IConfiguration configuracaoAppSettings) : DbContext
     {
+
+        private readonly IConfiguration _configuracaoAppSettings = configuracaoAppSettings;
+        public DbSet<Administrador> Administradores { get; set; } = default!;
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+
+                var stringConexao = _configuracaoAppSettings.GetConnectionString("mysql")?.ToString();// ? Significa que pode ser nulo
+                if (!string.IsNullOrEmpty(stringConexao))
+                {
+                    optionsBuilder.UseMySql(
+                         stringConexao,
+                         ServerVersion.AutoDetect(stringConexao)
+                    );
+                }
+            }
+
+        }
     }
 }
