@@ -1,0 +1,9 @@
+{
+  // Use the modern .NET runtime for OmniSharp (helps IntelliSense with .NET 6/7/8/9 projects)
+  "omnisharp.useModernNet": true,
+  // Prefer the Roslyn VS Code C# extension behavior
+  "omnisharp.enableEditorConfigSupport": true,
+  // Reduce noisy warnings in editor because restore/build are successful
+  "csharp.suppressDotnetRestoreWarning": true
+}
+
