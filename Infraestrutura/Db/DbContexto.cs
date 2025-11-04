@@ -8,6 +8,22 @@ namespace minimal.Infraestrutura.Db
 
         private readonly IConfiguration _configuracaoAppSettings = configuracaoAppSettings;
         public DbSet<Administrador> Administradores { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Administrador>().HasData(
+                new Administrador
+                {
+                    Id = 1,
+                    Email = "administrador@teste.com",
+                    Senha = "123456",
+                    Perfil = "Adm"
+                }
+            );
+
+            base.OnModelCreating(modelBuilder);
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
