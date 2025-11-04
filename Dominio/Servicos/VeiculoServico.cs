@@ -5,13 +5,9 @@ using minimal.Infraestrutura.Db;
 
 namespace minimal.Dominio.Servicos
 {
-    public class VeiculoServico : IVeiculoServico
+    public class VeiculoServico(DbContexto contexto) : IVeiculoServico
     {
-        private readonly DbContexto _contexto;
-        public VeiculoServico(DbContexto contexto)
-        {
-            _contexto = contexto;
-        }
+        private readonly DbContexto _contexto = contexto;
 
         public void Apagar(Veiculo veiculo)
         {

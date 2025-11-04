@@ -5,13 +5,10 @@ using minimal.Infraestrutura.Db;
 
 namespace minimal.Dominio.Servicos
 {
-    public class AdministradorServico : IAdministradorServico
+    public class AdministradorServico(DbContexto contexto) : IAdministradorServico
     {
-        private readonly DbContexto _contexto;
-        public AdministradorServico(DbContexto contexto)
-        {
-            _contexto = contexto;
-        }
+        private readonly DbContexto _contexto = contexto;
+
         public Administrador? Login(LoginDTO loginDto)
         {
             var adm = _contexto.Administradores.Where(a => a.Email == loginDto.Email && a.Senha == loginDto.Senha).FirstOrDefault();
