@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using minimal.Dominio.DTOs;
 using minimal.Dominio.Interfaces;
+using minimal.Dominio.ModelViews;
 using minimal.Dominio.Servicos;
 using minimal.Infraestrutura.Db;
 
@@ -24,7 +25,7 @@ builder.Services.AddDbContext<DbContexto>(options =>
 var app = builder.Build();
 
 
-app.MapGet("/", () => "Olá pessoal");
+app.MapGet("/", () => Results.Json(new Home()));
 
 app.MapPost("/login", ([FromBody] LoginDTO loginDto, IAdministradorServico administradorServico) =>//frombody para dizer que o dado vem do corpo da requisição
 {
