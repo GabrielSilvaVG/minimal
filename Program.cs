@@ -26,7 +26,7 @@ app.MapPost("/login", ([FromBody] LoginDTO loginDto, IAdministradorServico admin
     if (administradorServico.Login(loginDto) != null)
         return Results.Ok("Login bem-sucedido");
     else
-        return Results.Unauthorized();
+        return Results.Unauthorized(); 
 });
 
 app.Run();
