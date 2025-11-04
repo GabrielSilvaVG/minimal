@@ -36,7 +36,7 @@ namespace minimal.Dominio.Servicos
             _contexto.SaveChanges();
         }
 
-        public List<Veiculo> Todos(int pagina = 1, string? nome = null, string? marca = null)
+        public List<Veiculo> Todos(int? pagina = 1, string? nome = null, string? marca = null)
         {
             var query = _contexto.Veiculos.AsQueryable();//asqueryable transforma em consulta
 
@@ -45,7 +45,8 @@ namespace minimal.Dominio.Servicos
                 query = query.Where(v => v.Nome.Contains(nome));
             }
 
-            query = query.Skip((pagina - 1) * 10).Take(10);//paginacao - 10 registros por pagina
+            if(pagina != null)
+                query = query.Skip(((int)pagina - 1) * 10).Take(10);
 
             return query.ToList();
         }
