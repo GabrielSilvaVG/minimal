@@ -31,7 +31,7 @@ namespace minimal.Infraestrutura.Db
             if (!optionsBuilder.IsConfigured)
             {
 
-                var stringConexao = _configuracaoAppSettings.GetConnectionString("mysql")?.ToString();// ? Significa que pode ser nulo
+                var stringConexao = _configuracaoAppSettings.GetConnectionString("MySql")?.ToString();// ? Significa que pode ser nulo
                 if (!string.IsNullOrEmpty(stringConexao))
                 {
                     optionsBuilder.UseMySql(
