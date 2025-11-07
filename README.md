@@ -1,130 +1,197 @@
 # minimal-api
 
-Projeto .NET Minimal API com Entity Framework Core, MySQL e Swagger
-
-## Descrição
-Este projeto é uma API minimalista desenvolvida em .NET, utilizando o Entity Framework Core para acesso a dados, MySQL como banco de dados e Swagger para documentação interativa. O objetivo é fornecer uma base simples e funcional para autenticação e gerenciamento de administradores.
-
-## Funcionalidades
-- Cadastro e autenticação de administradores
-- Migrations e versionamento de banco de dados com EF Core
-- Configuração de conexão via appsettings.json
-- Documentação interativa dos endpoints via Swagger
-# minimal-api
-
-Projeto .NET Minimal API com Entity Framework Core, MySQL e Swagger — base mínima para autenticação, administração e gerenciamento de veículos.
-
-## Descrição
-Esta é uma API minimalista em .NET (Minimal API) construída com EF Core para persistência em MySQL e documentação via Swagger. Além das funcionalidades iniciais de autenticação e gerenciamento de administradores, o projeto agora inclui gerenciamento completo de veículos (CRUD), DTOs e serviços dedicados.
-
-## Novas funcionalidades adicionadas
-- CRUD completo de veículos (rota, serviços e DTOs)
-- DTOs para transferência de dados (`VeiculoDTO`, `LoginDTO`, etc.)
-- Serviços e interfaces: `IVeiculoServico`, `VeiculoServico` (separação de responsabilidades)
-- Seed de dados e migrations atualizadas para Administrador e Veículos
-- Endpoints autenticados para ações administrativas
-
-## Funcionalidades (resumo)
-- Cadastro e autenticação de administradores
-- Gerenciamento de veículos (criar, listar, obter por id, atualizar, excluir)
-- Migrations e versionamento de banco de dados com EF Core
-- Configuração de conexão via `appsettings.json`
-- Documentação interativa dos endpoints via Swagger
-
-## Estrutura Principal
-- `Program.cs`: configuração da aplicação e mapeamento dos endpoints
-- `Infraestrutura/Db/DbContexto.cs`: contexto do EF Core e seed
-- `Dominio/Entidades/`: entidades (ex.: `Administrador.cs`, `Veiculo.cs`)
-- `Dominio/DTOs/`: DTOs (ex.: `VeiculoDTO.cs`, `LoginDTO.cs`, `AdministradorDTO.cs`)
-- `Dominio/Interfaces/`: interfaces de serviço (ex.: `IVeiculoServico.cs`, `IAdministradorServico.cs`)
-- `Dominio/Servicos/`: implementações dos serviços (ex.: `VeiculoServico.cs`, `AdministradorServico.cs`)
-- `Migrations/`: migrations geradas pelo EF Core
-
-## Endpoints principais (novos e existentes)
-
-Autenticação / Administrador
-- `POST /login` — Autentica um administrador e retorna token/resultado
-  - Exemplo de requisição:
-    ```json
-    { "email": "admin@exemplo.com", "senha": "123456" }
-    ```
-
-Administradores
-- `POST /administradores` — Cria um novo administrador
-  - Observação importante: o campo `Perfil` utiliza o enum `Perfil` do sistema. Envie o valor numérico no payload: `0` para `Adm` e `1` para `Editor`.
-  - Exemplo de requisição (`AdministradorDTO`):
-    ```json
-    {
-      "email": "novo@exemplo.com",
-      "senha": "senhaSegura",
-      "perfil": 0
-    }
-    ```
-
-Veículos (CRUD)
-- `GET /veiculos` — Lista todos os veículos
-- `GET /veiculos/{id}` — Retorna um veículo por id
-- `POST /veiculos` — Cria um novo veículo
-  - Exemplo payload (`VeiculoDTO`):
-    ```json
-    {
-      "placa": "ABC1234",
-      "marca": "Fiat",
-      "modelo": "Uno",
-      "ano": 2010
-    }
-    ```
-- `PUT /veiculos/{id}` — Atualiza um veículo existente
-- `DELETE /veiculos/{id}` — Remove um veículo
-
-Respostas HTTP comuns:
-- 200 OK — Sucesso
-- 201 Created — Recurso criado (POST)
-- 400 Bad Request — Validação falhou
-- 401 Unauthorized — Requisição não autenticada
-- 404 Not Found — Recurso não encontrado
-
-## Configuração do Banco de Dados
-No arquivo `appsettings.json`, configure sua string de conexão MySQL:
-```json
-"ConnectionStrings": {
-  "mysql": "server=localhost;database=nome_do_banco;user=root;password=123456"
-}
-```
-
-## Seed e migrations
-O projeto inclui migrations para Administrador e Veículos. Há também um seed inicial para criar um administrador padrão (ver `Migrations/` e `Infraestrutura/Db/DbContexto.cs`).
-
-Comandos úteis:
-- Aplicar migrations e atualizar banco:
-```pwsh
-dotnet ef database update
-```
-- Gerar nova migration:
-```pwsh
-dotnet ef migrations add NomeDaMigration
-```
-
-## Como rodar
-1. Clone o repositório
-2. Configure o `appsettings.json` com sua string de conexão
-3. Execute as migrations e o seed:
-   ```pwsh
-   dotnet ef database update
-   ```
-4. Rode a aplicação:
-   ```pwsh
-   dotnet run
-   ```
-5. Acesse a documentação interativa (Swagger):
-   ```
-   http://localhost:5000/swagger
-   ```
-
-## Observações arquiteturais
-- Segregação de responsabilidades: controllers/minimal endpoints apenas delegam para serviços em `Dominio/Servicos/`.
-- DTOs são usados para validação e transferência; as entidades do domínio representam a persistência.
+Projeto **.NET Minimal API** com **Entity Framework Core**, **MySQL** e **Swagger** — base mínima para autenticação, administração e gerenciamento de veículos.
 
 ---
 
-> Projeto atualizado: adicionadas funcionalidades de gerenciamento de veículos, DTOs e serviços. Consulte as rotas em `/swagger` para exemplos interativos.
+## Sobre
+
+Este repositório contém uma **API minimalista em .NET** construída com **EF Core** para persistência em **MySQL** e documentação via **Swagger**.  
+
+O foco principal é:
+- Autenticação de administradores
+- Gerenciamento completo de veículos (CRUD)
+- Estrutura simples com DTOs, serviços e migrations
+
+---
+
+## ⚙️ Funcionalidades
+
+- 🔐 Autenticação de administradores (endpoint de login)  
+- 👥 Cadastro de administradores  
+- 🚗 CRUD completo de veículos  
+- 🧩 Separação por camadas (DTOs, serviços, contexto EF Core)  
+- 🧱 Migrations e seed com administrador inicial  
+- 📖 Documentação interativa com Swagger  
+
+---
+
+## 🗂️ Estrutura principal
+
+```
+Program.cs                     → configura a aplicação e endpoints
+Infraestrutura/Db/DbContexto.cs → DbContext do EF Core + seed inicial
+Dominio/Entidades/              → entidades (Administrador.cs, Veiculo.cs)
+Dominio/DTOs/                   → DTOs (VeiculoDTO, LoginDTO, AdministradorDTO)
+Dominio/Interfaces/             → interfaces de serviço (IVeiculoServico, IAdministradorServico)
+Dominio/Servicos/               → implementações dos serviços
+Migrations/                     → migrações geradas pelo EF Core
+```
+
+---
+
+## 📜 Contrato (rápido)
+
+- **Inputs:** JSON via body (ex.: `VeiculoDTO`, `AdministradorDTO`, `LoginDTO`)  
+- **Outputs:** JSON com recurso criado/atualizado ou mensagens de erro  
+- **Códigos HTTP:** `200`, `201`, `400`, `401`, `404`
+
+### ⚠️ Edge cases
+- Atualizar ou excluir recurso inexistente → **404 Not Found**  
+- Requisições sem autenticação → **401 Unauthorized**
+
+---
+
+## 🔐 Autenticação e uso do token
+
+- POST `/login` — Autentica um administrador  
+
+  **Exemplo (`LoginDTO`):**
+  ```json
+  { "email": "admin@exemplo.com", "senha": "123456" }
+  ```
+
+### Conta seed (usuário inicial)
+Use esta conta para obter o token no ambiente de desenvolvimento:
+
+```
+Email: administrador@teste.com
+Senha: 123456
+```
+
+Após o login, um token será retornado.  
+No Swagger, clique em **“Authorize”** e cole o token no formato **Bearer**:
+
+```
+Value: {TOKEN}
+```
+
+---
+
+## 🧾 Permissões por perfil (Roles)
+
+### 👑 Administrador (`Adm`)
+- Pode criar, ler, atualizar e deletar **administradores e veículos**.
+
+### ✏️ Editor (`Editor`)
+- Pode:
+  - Criar veículos (`POST /veiculos`)
+  - Listar veículos (`GET /veiculos`)
+  - Consultar veículo por ID (`GET /veiculos/{id}`)
+- Não pode:
+  - Criar/modificar/deletar administradores
+  - Atualizar ou deletar veículos
+
+As regras estão implementadas em `Program.cs` e nos serviços de `Dominio/Servicos/`.
+
+---
+
+## 👥 Endpoints de Administradores
+
+- **POST /administradores** — Cria um novo administrador  
+
+  **Exemplo (`AdministradorDTO`):**
+  ```json
+  {
+    "email": "novo@exemplo.com",
+    "senha": "senhaSegura",
+    "perfil": 0
+  }
+  ```
+
+> O campo `perfil` usa o enum `Perfil` (0 = Adm, 1 = Editor).  
+> Veja `Dominio/Enuns/Perfil.cs`.
+
+---
+
+## 🚗 Endpoints de Veículos (CRUD)
+
+- **GET /veiculos** — Lista todos os veículos  
+- **GET /veiculos/{id}** — Retorna um veículo por ID  
+- **POST /veiculos** — Cria um novo veículo  
+- **PUT /veiculos/{id}** — Atualiza um veículo existente  
+- **DELETE /veiculos/{id}** — Remove um veículo  
+
+**Exemplo (`VeiculoDTO`):**
+```json
+{
+  "Nome": "Fiat",
+  "Marca": "Uno",
+  "ano": 2010
+}
+```
+
+### Respostas comuns
+| Código | Significado |
+|--------|--------------|
+| 200 | OK |
+| 201 | Created |
+| 400 | Bad Request |
+| 401 | Unauthorized |
+| 404 | Not Found |
+
+---
+
+## Quick Start
+
+1. **Instale o .NET SDK** e o **MySQL/MariaDB**.
+2. **Configure a connection string** em `appsettings.json`:
+   ```json
+   "ConnectionStrings": {
+     "mysql": "server=localhost;database=nome_do_banco;user=root;password=123456"
+   }
+   ```
+3. **Instale a ferramenta `dotnet-ef`**:
+   ```pwsh
+   dotnet tool install --global dotnet-ef
+   ```
+4. **Aplique as migrations e rode o projeto:**
+   ```pwsh
+   dotnet ef database update
+   dotnet run
+   ```
+5. **Acesse o Swagger:**  
+   👉 [http://localhost:5000/swagger](http://localhost:5000/swagger)
+
+> 💡 A porta pode variar conforme o `launchSettings.json`.  
+> Verifique o console após executar `dotnet run`.
+
+---
+
+## Dicas de troubleshooting
+
+- Verifique se o MySQL/MariaDB está rodando e acessível.
+- Confira se as credenciais do `appsettings.json` estão corretas.
+- Execute os comandos `dotnet ef` no diretório do `.csproj` ou use `--project`/`--startup-project`.
+
+---
+
+## Observações arquiteturais
+
+- Os endpoints da **Minimal API** delegam lógica aos serviços em `Dominio/Servicos/`.
+- **DTOs** são usados para validação e transporte de dados.
+- **Entidades** representam a persistência no banco.
+- **Migrations** versionam o schema e populam o administrador inicial.
+
+---
+
+## 📁 Arquivos úteis
+
+- `Program.cs` — mapeamento de endpoints e middleware  
+- `Infraestrutura/Db/DbContexto.cs` — configuração do EF Core e seed  
+- `Dominio/DTOs/` — payloads aceitos  
+- `Migrations/` — histórico do schema
+
+---
+
+**2025 • Projeto minimal-api**
